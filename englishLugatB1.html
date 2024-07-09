@@ -6,10 +6,187 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        /* CSS kodlari */
+        .hidden {
+            display: none;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 6px;
+            padding: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+
+        .checkbox-wrapper-55 input[type="checkbox"] {
+            visibility: hidden;
+            display: none;
+        }
+
+        .checkbox-wrapper-55 *,
+        .checkbox-wrapper-55 ::after,
+        .checkbox-wrapper-55 ::before {
+            box-sizing: border-box;
+        }
+
+        .checkbox-wrapper-55 .rocker {
+            display: inline-block;
+            position: relative;
+            /*
+      SIZE OF SWITCH
+      ==============
+      All sizes are in em - therefore
+      changing the font-size here
+      will change the size of the switch.
+      See .rocker-small below as example.
+      */
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            color: #888;
+            width: 7em;
+            height: 4em;
+            overflow: hidden;
+            border-bottom: 0.5em solid #eee;
+        }
+
+        .checkbox-wrapper-55 .rocker-small {
+            font-size: 0.75em;
+        }
+
+        .checkbox-wrapper-55 .rocker::before {
+            content: "";
+            position: absolute;
+            top: 0.5em;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #999;
+            border: 0.5em solid #eee;
+            border-bottom: 0;
+        }
+
+        .checkbox-wrapper-55 .switch-left,
+        .checkbox-wrapper-55 .switch-right {
+            cursor: pointer;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 2.5em;
+            width: 3em;
+            transition: 0.2s;
+            user-select: none;
+        }
+
+        .checkbox-wrapper-55 .switch-left {
+            height: 2.4em;
+            width: 2.75em;
+            left: 0.85em;
+            bottom: 0.4em;
+            background-color: #ddd;
+            transform: rotate(15deg) skewX(15deg);
+        }
+
+        .checkbox-wrapper-55 .switch-right {
+            right: 0.5em;
+            bottom: 0;
+            background-color: #bd5757;
+            color: #fff;
+        }
+
+        .checkbox-wrapper-55 .switch-left::before,
+        .checkbox-wrapper-55 .switch-right::before {
+            content: "";
+            position: absolute;
+            width: 0.4em;
+            height: 2.45em;
+            bottom: -0.45em;
+            background-color: #ccc;
+            transform: skewY(-65deg);
+        }
+
+        .checkbox-wrapper-55 .switch-left::before {
+            left: -0.4em;
+        }
+
+        .checkbox-wrapper-55 .switch-right::before {
+            right: -0.375em;
+            background-color: transparent;
+            transform: skewY(65deg);
+        }
+
+        .checkbox-wrapper-55 input:checked+.switch-left {
+            background-color: #0084d0;
+            color: #fff;
+            bottom: 0px;
+            left: 0.5em;
+            height: 2.5em;
+            width: 3em;
+            transform: rotate(0deg) skewX(0deg);
+        }
+
+        .checkbox-wrapper-55 input:checked+.switch-left::before {
+            background-color: transparent;
+            width: 3.0833em;
+        }
+
+        .checkbox-wrapper-55 input:checked+.switch-left+.switch-right {
+            background-color: #ddd;
+            color: #888;
+            bottom: 0.4em;
+            right: 0.8em;
+            height: 2.4em;
+            width: 2.75em;
+            transform: rotate(-15deg) skewX(-15deg);
+        }
+
+        .checkbox-wrapper-55 input:checked+.switch-left+.switch-right::before {
+            background-color: #ccc;
+        }
+
+        /* Keyboard Users */
+        .checkbox-wrapper-55 input:focus+.switch-left {
+            color: #333;
+        }
+
+        .checkbox-wrapper-55 input:checked:focus+.switch-left {
+            color: #fff;
+        }
+
+        .checkbox-wrapper-55 input:focus+.switch-left+.switch-right {
+            color: #fff;
+        }
+
+        .checkbox-wrapper-55 input:checked:focus+.switch-left+.switch-right {
+            color: #333;
+        }
+    </style>
 </head>
 
 <body>
-    <p>units: 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42</p>
+
+    <p>Destination B1</p>
+
+    <div>
+        <label id="allChacking">
+            <input type="checkbox" id="allChackingInput" onchange="allchacking()"> All chacking
+        </label>
+
+        <br><br>
+
+        <div class="container" id="checkboxContainer">
+        </div>
+    </div>
+
     <script>
         let str = `––
 VOCABULARY FROM 3 UNIT
@@ -1331,42 +1508,54 @@ An advantage of – afzalligi/ustunligi
 Solution to – ga yechim`;
     </script>
     <script>
+
+        const checkboxContainer = document.getElementById('checkboxContainer');
+        for (let i = 3; i <= 42; i += 3) {
+            const checkboxItem = document.createElement('div');
+            checkboxItem.classList.add('checkbox-item');
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = 'checkbox-' + i;
+            checkbox.name = 'checkbox';
+            checkbox.value = i;
+
+            const label = document.createElement('label');
+            label.setAttribute('for', 'checkbox-' + i);
+            label.textContent = i;
+
+            checkboxItem.appendChild(checkbox);
+            checkboxItem.appendChild(label);
+            checkboxContainer.appendChild(checkboxItem);
+        }
+        function allchacking() {
+            const allChackingInput = document.getElementById('allChackingInput');
+            const checkboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+            if (allChackingInput.checked) {
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = true;
+                });
+            } else {
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = false;
+                });
+            }
+        }
         let arrUnits = str.split('––').map(item => item.trim().split('\n'));
         arrUnits.shift();
 
         function testFunc(parametr) {
-            let units = prompt(`units:\nnamuna:\n\n3, 6-12, 18 => 3, 6, 9, 12, 18`, '3-9, 15');
+            const checkedCheckboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]:checked');
+            const unitNumbers = Array.from(checkedCheckboxes).map(cb => +cb.value);
 
-            let unitNumbers = units.split(',').reduce((ac, item) => {
-                if (item == '') {
-                    return ac;
-                }
-                if (item.includes('-')) {
-                    let [start, end] = item.split('-');
-                    end = +end;
-                    for (let i = Math.ceil((+start) / 3) * 3; i <= end; i += 3) {
-                        ac.push(i);
-                    }
-                } else if ((+item) % 3 == 0) {
-                    ac.push(+item);
-                }
-                return ac;
-            }, []);
+            if (unitNumbers.length == 0) {
+                alert('please select a unit or units!');
+                return;
+            }
 
-            unitNumbers = unitNumbers.sort((a, b) => a - b).filter((item, ind, arr) => {
-                if (ind == 0) {
-                    return true;
-                }
-                if (item !== arr[ind - 1]) {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-
+            console.log(unitNumbers);
 
             let EngUzbArr = [];
-            //EngUzbArr.sort((a, b) => { return (a > b) ? 1 : -1 });
 
             let strr = '';
 
@@ -1376,12 +1565,12 @@ Solution to – ga yechim`;
                 let temp = arrUnits[unitNumbers[i] / 3 - 1];
                 EngUzbArr.push(...makeVocab(temp));
                 for (let j = 2; j < temp.length; j++) {
-                    if(temp[j].includes('–')) {
+                    if (temp[j].includes('–')) {
                         strr += '<p>' + temp[j] + '</p>';
                     } else {
                         strr += '<p><b><i>' + temp[j] + '</i></b></p>';
                     }
-                    
+
                 }
                 strr += '<p></p>';
             }
@@ -1390,7 +1579,7 @@ Solution to – ga yechim`;
 
             if (parametr == 1) {
                 let case_ = +prompt('1. eng dan uzb tarjima\n2. uzb dan eng tarjima', '1');
-                
+
                 while (EngUzbArr.length > 0) {
                     let random = Math.floor(Math.random() * EngUzbArr.length);
                     //let random2 = Math.floor(Math.random() * EngUzbArr.length);
@@ -1406,16 +1595,16 @@ Solution to – ga yechim`;
         }
 
         function makeVocab(item) {
-                let arrWords = item//.split('\n');
-                let arrEngUzb = [];
-                for (let i = 0; i < arrWords.length; i++) {
-                    if (arrWords[i].includes('–')) {
-                        let ind = arrWords[i].indexOf(('–'));
-                        arrEngUzb.push([arrWords[i].slice(0, ind).trim(), arrWords[i].slice(ind + 1).trim()])
-                    };
-                }
-                return arrEngUzb;
+            let arrWords = item//.split('\n');
+            let arrEngUzb = [];
+            for (let i = 0; i < arrWords.length; i++) {
+                if (arrWords[i].includes('–')) {
+                    let ind = arrWords[i].indexOf(('–'));
+                    arrEngUzb.push([arrWords[i].slice(0, ind).trim(), arrWords[i].slice(ind + 1).trim()])
+                };
             }
+            return arrEngUzb;
+        }
 
         function searchWord() {
             let searchEngWord = confirm(`inglizcha qidirilsinmi? \n "OK" engizcha so'z yozib o'zbekchani qidirasiz\n "CONCEL" o'zbekcha so'z yozib englizcha qidirasiz`);
@@ -1471,10 +1660,91 @@ Solution to – ga yechim`;
     <div>
         <button onclick="testFunc()">lug'at yodlash</button>
         <button onclick="testFunc(1)">yod olingan lug'atni takrorlash test qilish</button>
-        <button onclick="searchWord()">lug'atdan so'z qidirish</button>
-        <br> <br>
-
     </div>
+
+    <br><br>
+
+    <div>
+        <label for="">lug'atdan so'z qidirish</label>
+
+        <div class="checkbox-wrapper-55">
+            <label class="rocker rocker-small">
+                <input type="checkbox" id="englishOrUzbek" onchange=matnniKiriting()>
+                <span class="switch-left">Eng</span>
+                <span class="switch-right">Uzb</span>
+            </label>
+        </div>
+
+        <input type="text" id="textInput" placeholder="qidirish...">
+
+        <div id="result">
+        </div>
+    </div>
+
+    <script>
+        function matnniKiriting() {
+            const englishOrUzbek = document.getElementById('englishOrUzbek');
+            const textInput = document.getElementById('textInput');
+            if (englishOrUzbek.checked) {
+                textInput.placeholder = 'search...'
+            }
+            else {
+                textInput.placeholder = 'qidirish...'
+            }
+        }
+        const textInput = document.getElementById('textInput');
+        const resultDiv = document.getElementById('result');
+
+        textInput.addEventListener('input', function () {
+            const searchingEnglish = document.getElementById('englishOrUzbek').checked;
+            let searchTerm = textInput.value;
+            if (searchTerm.length < 2) {
+                resultDiv.innerHTML = '';
+            } else {
+                let arr;
+                let arrEngUzb = makeVocab(str.split('\n'));
+                if (searchingEnglish) {
+                    arr = arrEngUzb.filter(item => item[0].toUpperCase().includes(searchTerm.toUpperCase()));
+                }
+                else {
+                    j = 0;
+                    let tempUpper1 = searchTerm.toUpperCase();
+                    while (j < tempUpper1.length) {
+                        j = tempUpper1.indexOf('H', j);
+                        if (j == -1) break;
+                        if (j == 0 && tempUpper1[j - 1] != 'S' && tempUpper1[j - 1] != 'C') {
+                            tempUpper1 = tempUpper1.slice(0, j) + 'X' + tempUpper1.slice(j + 1);
+                        }
+                        j++;
+                    }
+
+                    arr = arrEngUzb.filter(item => {
+                        i = 0;
+                        let tempUpper = item[1].toUpperCase();
+                        while (i < tempUpper.length) {
+                            i = tempUpper.indexOf('H', i);
+                            if (i == -1) break;
+                            if (i == 0 && tempUpper[i - 1] != 'S' && tempUpper[i - 1] != 'C') {
+                                tempUpper = tempUpper.slice(0, i) + 'X' + tempUpper.slice(i + 1);
+                            }
+                            i++;
+                        }
+                        if (tempUpper.includes(tempUpper1)) {
+                            console.log(tempUpper, " ", tempUpper1);
+                            return item;
+                        }
+                    });
+                }
+
+                let strr = '';
+                for (let i = 0; i < arr.length; i++) {
+                    strr = strr + '<p>' + arr[i][(1 + searchingEnglish) % 2] + ' =>  ' + arr[i][(+searchingEnglish) % 2] + '</p>';
+                }
+                resultDiv.innerHTML = strr;
+            }
+        });
+
+    </script>
 </body>
 
 </html>
